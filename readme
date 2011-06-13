@@ -1,0 +1,132 @@
+Trabalho 1 - Redes I - FTP simplificado
+
+Autores:	Welyngton Jose Vinicius Dal Pra - GRR20054107
+			Ricardo Veiga da Fonseca		- GRR20053499
+
+Especificacao:
+
+		-> O trabalho foi feito em C++
+		-> Nao foi utilizado janelas deslizantes
+		-> Paridade vertical de 8 bits
+		-> Timeout de 1 seg (1000ms)
+		-> As mensagens tem 255 bytes com o seguinte formato:
+		
+		01111110
+		+-------+---------+-----------+------+-----------------+----------+
+		| Marca | Tamanho | Sequencia | Tipo |     Dados       | Paridade |
+		+-------+---------+-----------+------+-----------------+----------+
+		8 bits    8 bits   4 bits     4 bits     251 bits 		 8 bits
+
+Instalacao:
+	Digite no diretorio do trabalho:
+		$>./make
+
+Desinstalacao:
+	Digite no diretorio do trabalho:
+		$>./make limpa
+
+Execucao:
+	O Programa tem dois modos (cliente ou servidor) para executa-lo digite na pasta do trabalho:
+	Para habilitar o modo servidor:
+		$>./main --servidor
+	Para habilitar o modo cliente:
+		$>./main --cliente
+
+Uso:
+	O modo servidor nao possui comandos, fica aberto em loop infinito esperando mensagens do cliente.
+	O modo cliente possui os seguintes comandos que podem ser utilizados:
+		- cd  -> troca diretorio remoto
+		- ls  -> lista diretorio remoto
+		- pwd -> mostra diretorio remoto atual (implementado para testes)
+		- get -> pega um arquivo
+		- put -> envia um arquivo
+		- lls -> lista diretorio local
+		- lcd -> troca diretorio local
+		- lpwd-> mostra diretorio local atual (implementado para testes)
+
+Tipos utilizados nas mensagens:
+
+	Tipo 0  Ack
+	Tipo 1  Nack
+	Tipo 2  Dados
+	Tipo 9  Descritor de Arquivo
+	Tipo A  Mostra na Tela
+	Tipo C  Comandos
+	Tipo E  Erro
+	Tipo F  Final de Transmissao
+
+Arquivos do programa:
+
+	Makefile:
+		Compilador e desinstalador do programa.
+	main.cpp:
+		Contem o menu principal do programa e funcoes do modo servidor e cliente, entrada e envio de comandos, mostrar na tela, etc.
+	main.h
+		Contem declaracao de prototipos e bibliotecas utilizadas.
+	rawsocket.cpp:
+		Contem a funcao que inicializa o RAWSOCKET.
+	rawsocket.h:
+		Define a estrutura do corpo da mensagem e do socket, tambem as definicoes dos tipos utilizados nas mensagens, sequenciacao, timeout, etc.
+	resto.cpp:
+		Inicia e encerra uma conexao e converte strings para mensagens e vice versa.
+	resto.h:
+		Prototipos de funcoes.
+	transmissor.cpp:
+		Funcoes de envio e recebimento de mensagens (dados, ack, nack, etc), arquivos e strings.
+	transmissor.h:
+		Prototipos e bibliotecas utilizadas.
+
+Principais funcoes:
+
+	Main()
+		Menu principal aceita os modos 'cliente' e 'servidor'.
+
+	Modo_Cliente()
+		Modo de execucao que espera a entrada de comandos pelo cliente e encerra o programa.
+
+	Modo_Servidor()
+		Modo de execucao que espera o envio de comandos do cliente em loop infinito.
+
+	Request_Command_Local()
+		Executa comandos locais na area local.
+
+	Request_Command()
+		Envia os comandos para o cliente e mostra na tela a resposta.
+	
+	Request_Get()
+		Recebe um descritor de arquivo e grava de acordo com as mensagens.
+
+	Request_Put()
+		Envia um arquivo em mensagens.
+
+	Send_Get()
+		Guarda num buffer as informacoes do arquivo e o envia.
+
+	Send_Put()
+		Recebe o descritor do arquivo e o grava de acordo com as mensagens.
+
+	Cria_Conexao()
+		Inicia o RAWSOCKET em 'eth0'.
+
+	Msg2String()
+		Pega os dados de uma mensagem e cria um pacote.
+
+	String2Msg()
+		Desmonta o pacote e transforma uma string em mensagem para leitura.
+
+	Manda_String()
+		Manda mensagens para enviar uma string.
+
+	Manda_Msg()
+		Monta a mensagem e a envia.
+
+	Recebe_Msg()
+		Recebe uma mensagem de Manda_Msg(), verifica a sequencia e transforma a string em mensagem novamente.
+
+	Manda_Arquivo()
+		Envia um arquivo em partes.
+		
+		
+
+	
+	
